@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed;
     public LayerMask solidObjectLayer;
+    public LayerMask grassLayer;
 
     private bool isMoving;
     private Vector2 input;
@@ -55,14 +56,28 @@ public class PlayerController : MonoBehaviour
         }
         transform.position = targetPos;
         isMoving = false;
+        CheckForEncounters();
     }
 
     private bool IsWalkable(Vector3 targetPos)
     {
-        if(Physics2D.OverlapCircle(targetPos, 0.1f, solidObjectLayer)!=null)
+        if(Physics2D.OverlapCircle(targetPos, 0.2f, solidObjectLayer)!=null)
         {
             return false;
         }
         return true;
+    }
+    private void CheckForEncounters()
+    {
+
+        if (Physics2D.OverlapCircle(transform.position,0.2f,grassLayer)!=null)
+        {
+            if (Random.Range(1, 101)<=10)
+            {
+                Debug.Log("Encountered a wild pokemon");
+            }
+            
+            
+        }
     }
 }
